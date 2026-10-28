@@ -1,0 +1,140 @@
+
+import java.util.Scanner;
+
+public class HospitalPatientStack {
+
+    static class Patient {
+        int id;
+        String name;
+        String problem;
+        Patient next;
+
+        Patient(int id, String name, String problem) {
+            this.id = id;
+            this.name = name;
+            this.problem = problem;
+            this.next = null;
+        }
+    }
+
+    static class Stack {
+        private Patient top = null;
+
+        // Add a new patient to the stack
+        void push(int id, String name, String problem) {
+            Patient newPatient = new Patient(id, name, problem);
+            newPatient.next = top;
+            top = newPatient;
+
+            System.out.println("Patient record added successfully.");
+        }
+
+        // Remove the most recently added patient
+        void pop() {
+            if (top == null) {
+                System.out.println("No patient records available.");
+                return;
+            }
+
+            System.out.println("Removed patient: " + top.name);
+            top = top.next;
+        }
+
+        // Display the top patient
+        void peek() {
+            if (top == null) {
+                System.out.println("No patient records available.");
+                return;
+            }
+
+            System.out.println("Top Patient Record:");
+            System.out.println("ID: " + top.id);
+            System.out.println("Name: " + top.name);
+            System.out.println("Problem: " + top.problem);
+        }
+
+        // Display all patient records
+        void display() {
+            if (top == null) {
+                System.out.println("No patient records available.");
+                return;
+            }
+
+            Patient current = top;
+            System.out.println("\nHospital Patient Records (Top to Bottom):");
+
+            while (current != null) {
+                System.out.println("--------------------");
+                System.out.println("ID: " + current.id);
+                System.out.println("Name: " + current.name);
+                System.out.println("Problem: " + current.problem);
+                current = current.next;
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        Stack hospital = new Stack();
+        int choice;
+
+        do {
+            System.out.println("\n===== HOSPITAL PATIENT STACK =====");
+            System.out.println("1. Add Patient (Push)");
+            System.out.println("2. Remove Patient (Pop)");
+            System.out.println("3. View Top Patient (Peek)");
+            System.out.println("4. Display All Patients");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+
+            while (!sc.hasNextInt()) {
+                System.out.print("Enter a valid number: ");
+                sc.next();
+            }
+            choice = sc.nextInt();
+            sc.nextLine();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter Patient ID: ");
+                    while (!sc.hasNextInt()) {
+                        System.out.print("Enter a valid ID: ");
+                        sc.next();
+                    }
+                    int id = sc.nextInt();
+                    sc.nextLine();
+
+                    System.out.print("Enter Patient Name: ");
+                    String name = sc.nextLine();
+
+                    System.out.print("Enter Patient Problem: ");
+                    String problem = sc.nextLine();
+
+                    hospital.push(id, name, problem);
+                    break;
+
+                case 2:
+                    hospital.pop();
+                    break;
+
+                case 3:
+                    hospital.peek();
+                    break;
+
+                case 4:
+                    hospital.display();
+                    break;
+
+                case 5:
+                    System.out.println("Exiting Hospital Patient Stack.");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice. Try again.");
+            }
+
+        } while (choice != 5);
+
+        sc.close();
+    }
+}
